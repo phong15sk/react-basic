@@ -1,5 +1,6 @@
 import React from "react";
 import ChildComponent from "./ChildComponent";
+import AddComponent from "./AddComponent";
 /*
    #4-component
    #5-State
@@ -20,45 +21,17 @@ class MyComponent extends React.Component {
     });
   };
 
+  addUserToArray = (user) => {
+    //this.setState({ arrayUser: [...this.state.arrayUser, this.state.submit] });
+    this.setState((preveState) => ({
+      arrayUser: [...preveState.arrayUser, user],
+    }));
+    console.log("AddUserToArray", this.state);
+  };
+
   clickOnToggle = () => {
     this.setState((prevState) => ({ isToggleOn: !prevState.isToggleOn }));
     //this.setState({ isToggleOn: !this.state.isToggleOn });
-  };
-
-  handelOnChangeFistName = (event) => {
-    const newSubmit = { ...this.state.submit, firstName: event.target.value };
-    this.setState({
-      submit: newSubmit,
-    });
-    console.log("handelOnChangeFistName", newSubmit);
-  };
-
-  handelOnChangeLastName = (event) => {
-    const newSubmit = { ...this.state.submit, lastName: event.target.value };
-    this.setState({
-      submit: newSubmit,
-    });
-    console.log("handelOnChangeLastName", newSubmit);
-  };
-
-  handelOnSumit = (event) => {
-    // alert(
-    //   "Full Name: " +
-    //     this.state.submit.firstName +
-    //     " " +
-    //     this.state.submit.lastName
-    // );
-    let user = this.state.submit;
-
-    console.log("user", user);
-    /// add user to array
-    //this.setState({ arrayUser: [...this.state.arrayUser, this.state.submit] });
-
-    this.setState((preveState) => [preveState.arrayUser, user]);
-
-    console.log("handelOnSumit", this.state);
-
-    event.preventDefault();
   };
 
   render() {
@@ -88,37 +61,11 @@ class MyComponent extends React.Component {
             {this.state.isToggleOn ? "ON" : "OFF"}
           </button>
         </div>
-
-        <form onSubmit={(event) => this.handelOnSumit(event)}>
-          <label htmlFor="fname">First name:</label>
-          <br />
-          <input
-            type="text"
-            id="fname"
-            name="fname"
-            value={this.state.submit.firstName}
-            onChange={(event) => this.handelOnChangeFistName(event)}
-          ></input>
-          <br />
-          <label htmlFor="lname">Last name:</label>
-          <br />
-          <input
-            type="text"
-            id="lname"
-            name="lname"
-            value={this.state.submit.lastName}
-            onChange={(event) => this.handelOnChangeLastName(event)}
-          ></input>
-          <br />
-          <input
-            type="submit"
-            value="Submit"
-            style={{
-              textAlign: "center",
-            }}
-          ></input>
-        </form>
-        <ChildComponent user={this.state.submit}></ChildComponent>
+        <AddComponent addUserToArray={this.addUserToArray}></AddComponent>
+        <ChildComponent
+          user={this.state.submit}
+          arrayUser={this.state.arrayUser}
+        ></ChildComponent>
       </>
     );
   }
