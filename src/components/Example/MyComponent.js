@@ -29,6 +29,12 @@ class MyComponent extends React.Component {
     console.log("AddUserToArray", this.state);
   };
 
+  removeUserToArray = (index) => {
+    var newArrayUser = [...this.state.arrayUser];
+    newArrayUser.splice(index, 1)
+    this.setState({ arrayUser: newArrayUser })
+  }
+
   clickOnToggle = () => {
     this.setState((prevState) => ({ isToggleOn: !prevState.isToggleOn }));
     //this.setState({ isToggleOn: !this.state.isToggleOn });
@@ -37,6 +43,7 @@ class MyComponent extends React.Component {
   render() {
     // declare
     let name = "phong IT";
+    console.log(this.state);
     return (
       <>
         <div>
@@ -65,6 +72,7 @@ class MyComponent extends React.Component {
         <ChildComponent
           user={this.state.submit}
           arrayUser={this.state.arrayUser}
+          removeUserToArray={this.removeUserToArray}
         ></ChildComponent>
       </>
     );
