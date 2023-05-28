@@ -8,10 +8,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import Root, { loader as rootLoader, action as rootAction, } from './views/root';
+import Root, { loader as rootLoader, action as rootAction } from './views/root';
 import ErrorPage from './components/Example/React-router-dom/error-page';
-import Contact from './components/Example/React-router-dom/Contact';
-
+import Contact, { loader as contactLoader } from './components/Example/React-router-dom/Contact';
+import EditContact, { action as editAction } from './components/Example/React-router-dom/EditContact';
+import { action as destroyAction } from './components/Example/React-router-dom/destroy';
+import Index from './components/Example/React-router-dom';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +25,23 @@ const router = createBrowserRouter([
       {
         path: "contacts/:contactId",
         element: <Contact />,
+        loader: contactLoader
       },
+      {
+        path: "contacts/:contactId/destroy",
+        action: destroyAction,
+        errorElement: <div>Oops! There was an error.</div>
+      },
+      {
+        path: "contacts/:contactId/edit",
+        element: <EditContact />,
+        loader: contactLoader,
+        action: editAction
+      },
+      {
+        index: true,
+        element: <Index />
+      }
     ],
   },
   {

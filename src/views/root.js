@@ -1,32 +1,41 @@
 import "./root.scss"
-import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+import { Outlet, NavLink, useLoaderData, Form, redirect, useNavigation } from "react-router-dom";
 import { getContacts, createContact } from "../components/Example/React-router-dom/api-fake/Contacts";
 
-export async function loader() {
-    const contacts = await getContacts();
-    return { contacts };
+// export async function loader() {
+//     const contacts = await getContacts();
+//     return { contacts };
+// }
+
+export async function loader({ request }) {
+    const url = new URL(request.url);
+    const q = url.searchParams.get("q");
+    const contacts = await getContacts(q);
+    return { contacts, q };
 }
 
 export async function action() {
     const contact = await createContact();
-    return { contact };
+    return redirect(`/contacts/${contact.id}/edit`);;
 }
 
 
 export default function Root() {
-    const { contacts } = useLoaderData();
+    const { contacts, q } = useLoaderData();
+    const navigation = useNavigation();
     return (
         <>
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
-                    <form id="search-form" role="search">
+                    <Form id="search-form" role="search">
                         <input
                             id="q"
                             aria-label="Search contacts"
                             placeholder="Search"
                             type="search"
                             name="q"
+                            defaultValue={q}
                         />
                         <div
                             id="search-spinner"
@@ -37,7 +46,7 @@ export default function Root() {
                             className="sr-only"
                             aria-live="polite"
                         ></div>
-                    </form>
+                    </Form>
                     <Form method="post">
                         <button type="submit">New</button>
                     </Form>
@@ -47,7 +56,12 @@ export default function Root() {
                         <ul>
                             {contacts.map((contact) => (
                                 <li key={contact.id}>
-                                    <Link to={`contacts/${contact.id}`}>
+                                    <NavLink
+                                        to={`contacts/${contact.id}`}
+                                        className={({ isActive, isPending }) =>
+                                            isActive ? "active" : isPending ? "pending" : ""
+                                        }
+                                    >
                                         {contact.first || contact.last ? (
                                             <>
                                                 {contact.first} {contact.last}
@@ -56,7 +70,8 @@ export default function Root() {
                                             <i>No Name</i>
                                         )}{" "}
                                         {contact.favorite && <span>★</span>}
-                                    </Link>
+                                    </NavLink>
+
                                 </li>
                             ))}
                         </ul>
@@ -67,7 +82,7 @@ export default function Root() {
                     )}
                 </nav>
             </div>
-            <div id="detail">
+            <div id="detail" className={navigation.state === "loading" ? "loading" : ""}>
                 <Outlet />
             </div>
         </>
