@@ -1,6 +1,7 @@
-import "./root.scss"
+
 import { Outlet, NavLink, useLoaderData, Form, redirect, useNavigation } from "react-router-dom";
 import { getContacts, createContact } from "../components/Example/React-router-dom/api-fake/Contacts";
+import Nav from "../Nav/Nav";
 
 // export async function loader() {
 //     const contacts = await getContacts();
@@ -18,7 +19,6 @@ export async function action() {
     const contact = await createContact();
     return redirect(`/contacts/${contact.id}/edit`);;
 }
-
 
 export default function Root() {
     const { contacts, q } = useLoaderData();

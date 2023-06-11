@@ -14,9 +14,15 @@ import Contact, { loader as contactLoader } from './components/Example/React-rou
 import EditContact, { action as editAction } from './components/Example/React-router-dom/EditContact';
 import { action as destroyAction } from './components/Example/React-router-dom/destroy';
 import Index from './components/Example/React-router-dom';
+import { store } from './components/Example/Redux-Toolkit/store';
+import { Provider } from 'react-redux'
+import { Counter } from './components/Example/Redux-Toolkit/counter/counter';
+import Hook from './components/Example/React-hook/Index';
+import Nav from './Nav/Nav';
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/router",
     element: <Root />,
     errorElement: <ErrorPage />,
     loader: rootLoader,
@@ -45,16 +51,25 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/app",
-    element: <App />
+    path: "/",
+    element: <Nav />
+  },
+  {
+    path: "/redux",
+    element: <Counter />
+  },
+  {
+    path: "/hook",
+    element: <Hook />
   }
 
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
