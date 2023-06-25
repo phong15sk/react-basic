@@ -20,6 +20,19 @@ import { Counter } from './components/Example/Redux-Toolkit/counter/counter';
 import Hook from './components/Example/React-hook/Index';
 import Nav from './Nav/Nav';
 
+//fake event globle
+const emmitComment = (index) => {
+  setInterval(() => {
+    window.dispatchEvent(new CustomEvent(`lession-${index}`, {
+      detail: `Nội dung của lession ${index}`
+    }))
+  }, 2000)
+}
+
+emmitComment(1)
+emmitComment(2)
+emmitComment(3)
+
 const router = createBrowserRouter([
   {
     path: "/router",
@@ -66,11 +79,9 @@ const router = createBrowserRouter([
 ]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
