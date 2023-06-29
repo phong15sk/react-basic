@@ -9,6 +9,8 @@ const types = ['posts', 'comments', 'albums']
 function Content() {
 
     const [input, setInput] = useState('')
+
+    
     const [post, setPost] = useState([])
     const [type, setType] = useState(types[0])
     const [showButton, setShowButton] = useState(false)
