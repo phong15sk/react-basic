@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 //3. UseEffect When component Mouted and re-render with dependencies []
 
 //Clean up functon call trước khi component unmouted
-//Clean up functon call trước khi call back được gọi
+//Clean up functon call trước khi call back được gọi (trừ lần mouted)
 const types = ['posts', 'comments', 'albums']
 function Content() {
 
