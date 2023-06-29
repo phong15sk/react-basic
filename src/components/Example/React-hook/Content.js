@@ -10,7 +10,7 @@ function Content() {
 
     const [input, setInput] = useState('')
 
-    
+
     const [post, setPost] = useState([])
     const [type, setType] = useState(types[0])
     const [showButton, setShowButton] = useState(false)
@@ -23,6 +23,9 @@ function Content() {
         setType(type)
         console.log(type)
     }
+
+
+    
 
     useEffect(() => {
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
